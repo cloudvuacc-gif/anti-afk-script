@@ -1,63 +1,679 @@
-local a=game local b=a:GetService local c=b(a,"HttpService")local d=b(a,"Players")local e=d.LocalPlayer local f=b(a,"CoreGui")local g=b(a,"UserInputService")local i=b(a,"VirtualUser")local j="https://link-center.net/6819549/eLZPTLtWBC8k"local k=tick()local l=true local m=""local n=false local o=0 local p=e.Name
-pcall(function()if getgenv()._k and getgenv()._k>0 then n=true;o=getgenv()._k end end)if not n then pcall(function()if shared._k and shared._k>0 then n=true;o=shared._k end end)end if not n then pcall(function()if _G._k and _G._k>0 then n=true;o=_G._k end end)end if not n then pcall(function()if isfile and readfile and isfile("_k.cfg")then local z=c:JSONDecode(readfile("_k.cfg"))if z and z.u==e.UserId and z.t>0 then if os.time()-z.t<86400 then o=z.t;n=true end end end end)end
-pcall(function()if getgenv()._w and getgenv()._w~=""then m=getgenv()._w end end)if m==""then pcall(function()if shared._w and shared._w~=""then m=shared._w end end)end if m==""then pcall(function()if _G._w and _G._w~=""then m=_G._w end end)end if m==""then pcall(function()if isfile and readfile and isfile("_w.cfg")then local z=c:JSONDecode(readfile("_w.cfg"))if z and z.u and z.u~=""then m=z.u end end end)end
-for _,v in ipairs(f:GetChildren())do if v:IsA("ScreenGui")then v:Destroy()end end
-local function q(k)k=k:gsub("%s+",""):upper()if not k:match("^DEDSEC%-")then return false end local p={}for w in k:gmatch("[^-]+")do p[#p+1]=w end if#p~=4 then return false end local z=tonumber(p[2],36)if not z or z~=e.UserId then return false end if#p[3]~=10 or not p[3]:match("^%d+$")then return false end local t=os.date("*t")local c=string.format("%04d%02d%02d%02d",t.year,t.month,t.day,t.hour)if p[3]==c then return true end t.hour=t.hour-1 if t.hour<0 then t.hour=23;t.day=t.day-1 end if p[3]==string.format("%04d%02d%02d%02d",t.year,t.month,t.day,t.hour)then return true end return false end
-local function r(u)m=u;getgenv()._w=u;shared._w=u;_G._w=u;pcall(function()if isfile and writefile then writefile("_w.cfg",c:JSONEncode({u=u}))end end)end
-local function s()getgenv()._k=o;shared._k=o;_G._k=o;pcall(function()if isfile and writefile then writefile("_k.cfg",c:JSONEncode({u=e.UserId,t=o}))end end)end
-local function t(s)return string.format("%02d:%02d:%02d",math.floor(s/3600),math.floor((s%3600)/60),math.floor(s%60))end
-local function u()if not l then return end pcall(function()i:CaptureController()i:ClickButton2(Vector2.new(math.random(100,600),math.random(100,400)))end)end
-local function v(o,r)Instance.new("UICorner",o).CornerRadius=UDim.new(0,r or 8)end
+--[[ V0.0 ANTI AFK - cloudvuacc ]]
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local VirtualUser = game:GetService("VirtualUser")
+local StarterGui = game:GetService("StarterGui")
 
-local function w()
-for _,v in ipairs(f:GetChildren())do if v.Name=="_q"then v:Destroy()end end
-local G=Instance.new("ScreenGui")G.Name="_r"G.ResetOnSpawn=false G.Parent=f
-local F=Instance.new("Frame")F.Size=UDim2.new(0,320,0,260)F.Position=UDim2.new(0.5,-160,0.3,0)F.BackgroundColor3=Color3.fromRGB(15,15,15)F.BorderSizePixel=0 F.Parent=G v(F,10)
-local TB=Instance.new("Frame")TB.Size=UDim2.new(1,0,0,35)TB.BackgroundColor3=Color3.fromRGB(22,22,22)TB.BorderSizePixel=0 TB.Parent=F v(TB,10)
-local TC=Instance.new("Frame")TC.Size=UDim2.new(1,0,0.5,0)TC.Position=UDim2.new(0,0,0.5,0)TC.BackgroundColor3=Color3.fromRGB(22,22,22)TC.BorderSizePixel=0 TC.Parent=TB
-local Ti=Instance.new("TextLabel")Ti.Size=UDim2.new(1,-50,1,0)Ti.Position=UDim2.new(0,12,0,0)Ti.BackgroundTransparency=1 Ti.Font=Enum.Font.GothamBold Ti.Text="🛡️ V0.0 ANTI AFK"Ti.TextColor3=Color3.fromRGB(255,255,255)Ti.TextSize=12 Ti.TextXAlignment=Enum.TextXAlignment.Left Ti.Parent=TB
-local CB=Instance.new("TextButton")CB.Size=UDim2.new(0,28,0,28)CB.Position=UDim2.new(1,-34,0,3)CB.BackgroundColor3=Color3.fromRGB(45,45,45)CB.BorderSizePixel=0 CB.Font=Enum.Font.Code CB.Text="X"CB.TextColor3=Color3.fromRGB(220,220,220)CB.TextSize=16 CB.Parent=TB v(CB,4)CB.MouseButton1Click:Connect(function()G:Destroy()end)
-if o>0 then local rem=86400-(os.time()-o)local ks=Instance.new("TextLabel")ks.Size=UDim2.new(1,-24,0,14)ks.Position=UDim2.new(0,12,0,40)ks.BackgroundTransparency=1 ks.Font=Enum.Font.GothamMedium if rem>0 then ks.Text="🔑 "..math.floor(rem/3600).."h "..math.floor((rem%3600)/60).."m left"ks.TextColor3=Color3.fromRGB(0,255,0)else ks.Text="🔑 Expired!"ks.TextColor3=Color3.fromRGB(255,100,100)end ks.TextSize=9 ks.TextXAlignment=Enum.TextXAlignment.Center ks.Parent=F end
-local UIF=Instance.new("Frame")UIF.Size=UDim2.new(1,-24,0,26)UIF.Position=UDim2.new(0,12,0,56)UIF.BackgroundColor3=Color3.fromRGB(12,12,16)UIF.BorderSizePixel=0 UIF.Parent=F v(UIF,6)
-local UIL=Instance.new("TextLabel")UIL.Size=UDim2.new(1,-60,1,0)UIL.Position=UDim2.new(0,8,0,0)UIL.BackgroundTransparency=1 UIL.Font=Enum.Font.GothamMedium UIL.Text="👤 "..e.Name.." | ID: "..e.UserId UIL.TextColor3=Color3.fromRGB(180,180,255)UIL.TextSize=10 UIL.TextXAlignment=Enum.TextXAlignment.Left UIL.Parent=UIF
-local CpID=Instance.new("TextButton")CpID.Size=UDim2.new(0,50,0,16)CpID.Position=UDim2.new(1,-56,0,5)CpID.BackgroundColor3=Color3.fromRGB(80,80,100)CpID.BorderSizePixel=0 CpID.Font=Enum.Font.GothamMedium CpID.Text="COPY ID"CpID.TextColor3=Color3.fromRGB(255,255,255)CpID.TextSize=9 CpID.Parent=UIF v(CpID,4)CpID.MouseButton1Click:Connect(function()pcall(function()setclipboard(tostring(e.UserId))end)end)
-local UF=Instance.new("Frame")UF.Size=UDim2.new(1,-24,0,34)UF.Position=UDim2.new(0,12,0,86)UF.BackgroundColor3=Color3.fromRGB(10,10,10)UF.BorderSizePixel=0 UF.Parent=F v(UF,6)
-local UV=Instance.new("TextLabel")UV.Size=UDim2.new(1,-10,1,0)UV.Position=UDim2.new(0,5,0,0)UV.BackgroundTransparency=1 UV.Font=Enum.Font.GothamBold UV.Text="⏱️ 00:00:00"UV.TextColor3=Color3.fromRGB(0,255,200)UV.TextSize=14 UV.TextXAlignment=Enum.TextXAlignment.Center UV.Parent=UF
-local WL=Instance.new("TextLabel")WL.Size=UDim2.new(1,-24,0,14)WL.Position=UDim2.new(0,12,0,124)WL.BackgroundTransparency=1 WL.Font=Enum.Font.GothamBold WL.Text="📡 WEBHOOK URL:"WL.TextColor3=Color3.fromRGB(100,200,255)WL.TextSize=10 WL.TextXAlignment=Enum.TextXAlignment.Left WL.Parent=F
-local IC=Instance.new("Frame")IC.Size=UDim2.new(1,-24,0,28)IC.Position=UDim2.new(0,12,0,140)IC.BackgroundColor3=Color3.fromRGB(10,10,10)IC.BorderSizePixel=0 IC.ClipsDescendants=true IC.Parent=F v(IC,6)
-local WI=Instance.new("TextBox")WI.Size=UDim2.new(1,-12,1,-6)WI.Position=UDim2.new(0,6,0,3)WI.BackgroundTransparency=1 WI.BorderSizePixel=0 WI.Font=Enum.Font.Code WI.Text=m or""WI.TextColor3=Color3.fromRGB(255,255,255)WI.TextSize=10 WI.TextXAlignment=Enum.TextXAlignment.Left WI.TextTruncate=Enum.TextTruncate.AtEnd WI.ClearTextOnFocus=false WI.Parent=IC
-local SaveBtn=Instance.new("TextButton")SaveBtn.Size=UDim2.new(0.5,-18,0,26)SaveBtn.Position=UDim2.new(0,12,0,172)SaveBtn.BackgroundColor3=Color3.fromRGB(0,180,100)SaveBtn.BorderSizePixel=0 SaveBtn.Font=Enum.Font.GothamBold SaveBtn.Text="💾 SAVE"SaveBtn.TextColor3=Color3.fromRGB(255,255,255)SaveBtn.TextSize=10 SaveBtn.Parent=F v(SaveBtn,6)
-SaveBtn.MouseButton1Click:Connect(function()r(WI.Text)CS.Text=m~=""and"💾 Saved ✓"or"💾 No URL"CS.TextColor3=m~=""and Color3.fromRGB(0,255,100)or Color3.fromRGB(255,180,50)end)
-local TestBtn=Instance.new("TextButton")TestBtn.Size=UDim2.new(0.5,-18,0,26)TestBtn.Position=UDim2.new(0.5,6,0,172)TestBtn.BackgroundColor3=Color3.fromRGB(255,160,0)TestBtn.BorderSizePixel=0 TestBtn.Font=Enum.Font.GothamBold TestBtn.Text="🧪 TEST"TestBtn.TextColor3=Color3.fromRGB(255,255,255)TestBtn.TextSize=10 TestBtn.Parent=F v(TestBtn,6)
-TestBtn.MouseButton1Click:Connect(function()if WI.Text~=""then r(WI.Text)end if m~=""then pcall(function()local P={["content"]="",["embeds"]={{["title"]="🧪 Test",["description"]="✅ Webhook active!\n**"..p.."**",["color"]=3447003,["footer"]={["text"]="V0.0 | "..p}}}}local B=c:JSONEncode(P)local R=request or http_request or syn.request if R then R({Url=m,Method="POST",Headers={["Content-Type"]="application/json"},Body=B})end end)end end)
-local CS=Instance.new("TextLabel")CS.Size=UDim2.new(1,-24,0,12)CS.Position=UDim2.new(0,12,0,202)CS.BackgroundTransparency=1 CS.Font=Enum.Font.GothamMedium CS.Text=m~=""and"💾 Config: Saved ✓"or"💾 Config: No URL"CS.TextColor3=m~=""and Color3.fromRGB(0,255,100)or Color3.fromRGB(255,180,50)CS.TextSize=9 CS.TextXAlignment=Enum.TextXAlignment.Left CS.Parent=F
-local SS=Instance.new("Frame")SS.Size=UDim2.new(1,-24,0,22)SS.Position=UDim2.new(0,12,0,216)SS.BackgroundColor3=Color3.fromRGB(10,10,10)SS.BorderSizePixel=0 SS.Parent=F v(SS,6)
-local SD=Instance.new("Frame")SD.Size=UDim2.new(0,8,0,8)SD.Position=UDim2.new(0,8,0,7)SD.BackgroundColor3=Color3.fromRGB(0,255,0)SD.BorderSizePixel=0 SD.Parent=SS v(SD,4)
-local ST=Instance.new("TextLabel")ST.Size=UDim2.new(1,-20,1,0)ST.Position=UDim2.new(0,20,0,0)ST.BackgroundTransparency=1 ST.Font=Enum.Font.GothamMedium ST.Text="PROTECTION: ACTIVE"ST.TextColor3=Color3.fromRGB(0,255,0)ST.TextSize=10 ST.TextXAlignment=Enum.TextXAlignment.Left ST.Parent=SS
-local TG=Instance.new("TextButton")TG.Size=UDim2.new(1,-24,0,28)TG.Position=UDim2.new(0,12,0,242)TG.BackgroundColor3=Color3.fromRGB(0,200,100)TG.BorderSizePixel=0 TG.Font=Enum.Font.GothamBold TG.Text="🟢 ANTI-AFK: ON"TG.TextColor3=Color3.fromRGB(255,255,255)TG.TextSize=11 TG.Parent=F v(TG,6)
-local function UT()if l then TG.Text="🟢 ANTI-AFK: ON"TG.BackgroundColor3=Color3.fromRGB(0,200,100)SD.BackgroundColor3=Color3.fromRGB(0,255,0)ST.Text="PROTECTION: ACTIVE"ST.TextColor3=Color3.fromRGB(0,255,0)else TG.Text="🔴 ANTI-AFK: OFF"TG.BackgroundColor3=Color3.fromRGB(200,50,50)SD.BackgroundColor3=Color3.fromRGB(255,50,50)ST.Text="PROTECTION: DISABLED"ST.TextColor3=Color3.fromRGB(255,50,50)end end TG.MouseButton1Click:Connect(function()l=not l UT()end)
-local CR=Instance.new("TextLabel")CR.Size=UDim2.new(1,-24,0,14)CR.Position=UDim2.new(0,12,0,274)CR.BackgroundTransparency=1 CR.Font=Enum.Font.GothamMedium CR.Text="Shift: Hide | F4: Toggle | X: Close | Made by cloudvuacc"CR.TextColor3=Color3.fromRGB(80,80,80)CR.TextSize=9 CR.TextXAlignment=Enum.TextXAlignment.Center CR.Parent=F
-local dr,ds,sp=false,Vector2.new(0,0),F.Position TB.InputBegan:Connect(function(i)if i.UserInputType==Enum.UserInputType.MouseButton1 then dr=true ds=i.Position sp=F.Position end end)g.InputEnded:Connect(function(i)if i.UserInputType==Enum.UserInputType.MouseButton1 then dr=false end end)g.InputChanged:Connect(function(i)if dr and i.UserInputType==Enum.UserInputType.MouseMovement then local d=i.Position-ds F.Position=UDim2.new(sp.X.Scale,sp.X.Offset+d.X,sp.Y.Scale,sp.Y.Offset+d.Y)end end)
-spawn(function()while G and G.Parent do UV.Text="⏱️ "..t(tick()-k)task.wait(0.1)end end)
-spawn(function()while G and G.Parent do if l then SD.BackgroundColor3=Color3.fromRGB(0,255*(math.sin(tick()*4)*0.4+0.6),0)end task.wait(0.05)end end)
-spawn(function()while G and G.Parent do u()task.wait(math.random(25,45))end end)
-e.CharacterAdded:Connect(function(C)local Hm=C:FindFirstChildOfClass("Humanoid")if Hm then Hm.Idled:Connect(function()if l then u()end end)end end)
-if e.Character then local Hm=e.Character:FindFirstChildOfClass("Humanoid")if Hm then Hm.Idled:Connect(function()if l then u()end end)end end
-g.InputBegan:Connect(function(i,gp)if not gp then if i.KeyCode==Enum.KeyCode.F4 then l=not l UT()elseif i.KeyCode==Enum.KeyCode.LeftShift or i.KeyCode==Enum.KeyCode.RightShift then F.Visible=not F.Visible end end end)
+local LINK = "https://link-center.net/6819549/eLZPTLtWBC8k"
+local StartTime = tick()
+local AntiAFK_Enabled = true
+
+-- Auto-load config
+local ConfigLoaded = false
+local ConfigLoadSource = ""
+local SavedWebhookURL = ""
+pcall(function()
+    if getgenv().AntiAFK_WebhookURL and getgenv().AntiAFK_WebhookURL ~= "" then
+        SavedWebhookURL = getgenv().AntiAFK_WebhookURL
+        ConfigLoaded = true; ConfigLoadSource = "Memory"
+    end
+end)
+if not ConfigLoaded then
+    pcall(function()
+        if isfile and readfile and isfile("AntiAFK_Config.json") then
+            local Config = HttpService:JSONDecode(readfile("AntiAFK_Config.json"))
+            if Config and Config.WebhookURL and Config.WebhookURL ~= "" then
+                SavedWebhookURL = Config.WebhookURL
+                ConfigLoaded = true; ConfigLoadSource = "File"
+            end
+        end
+    end)
 end
 
-local function x()local G=Instance.new("ScreenGui")G.Name="_q"G.ResetOnSpawn=false G.Parent=f
-local F=Instance.new("Frame")F.Size=UDim2.new(0,360,0,210)F.Position=UDim2.new(0.5,-180,0.4,-105)F.BackgroundColor3=Color3.fromRGB(18,18,22)F.BorderSizePixel=0 F.Parent=G v(F,12)
-local CX=Instance.new("TextButton")CX.Size=UDim2.new(0,26,0,26)CX.Position=UDim2.new(1,-32,0,6)CX.BackgroundColor3=Color3.fromRGB(220,40,40)CX.BorderSizePixel=0 CX.Font=Enum.Font.GothamBold CX.Text="✕"CX.TextColor3=Color3.fromRGB(255,255,255)CX.TextSize=13 CX.Parent=F v(CX,6)CX.MouseButton1Click:Connect(function()G:Destroy()end)
-local Ti=Instance.new("TextLabel")Ti.Size=UDim2.new(1,0,0,24)Ti.Position=UDim2.new(0,0,0,10)Ti.BackgroundTransparency=1 Ti.Font=Enum.Font.GothamBold Ti.Text="🔑 ENTER KEY"Ti.TextColor3=Color3.fromRGB(0,255,150)Ti.TextSize=15 Ti.Parent=F
-local UID=Instance.new("Frame")UID.Size=UDim2.new(1,-40,0,26)UID.Position=UDim2.new(0,20,0,38)UID.BackgroundColor3=Color3.fromRGB(12,12,16)UID.BorderSizePixel=0 UID.Parent=F v(UID,6)
-local UIL=Instance.new("TextLabel")UIL.Size=UDim2.new(1,-55,1,0)UIL.Position=UDim2.new(0,8,0,0)UIL.BackgroundTransparency=1 UIL.Font=Enum.Font.GothamMedium UIL.Text="👤 ID: "..e.UserId UIL.TextColor3=Color3.fromRGB(180,180,255)UIL.TextSize=10 UIL.TextXAlignment=Enum.TextXAlignment.Left UIL.Parent=UID
-local CpID=Instance.new("TextButton")CpID.Size=UDim2.new(0,45,0,16)CpID.Position=UDim2.new(1,-50,0,5)CpID.BackgroundColor3=Color3.fromRGB(80,80,100)CpID.BorderSizePixel=0 CpID.Font=Enum.Font.GothamMedium CpID.Text="COPY"CpID.TextColor3=Color3.fromRGB(255,255,255)CpID.TextSize=8 CpID.Parent=UID v(CpID,4)CpID.MouseButton1Click:Connect(function()pcall(function()setclipboard(tostring(e.UserId))end)St.Text="✅ ID copied!"St.TextColor3=Color3.fromRGB(0,255,0)end)
-local GK=Instance.new("TextButton")GK.Size=UDim2.new(1,-40,0,32)GK.Position=UDim2.new(0,20,0,70)GK.BackgroundColor3=Color3.fromRGB(255,140,0)GK.BorderSizePixel=0 GK.Font=Enum.Font.GothamBold GK.Text="🔗 GET KEY"GK.TextColor3=Color3.fromRGB(255,255,255)GK.TextSize=12 GK.Parent=F v(GK,6)GK.MouseButton1Click:Connect(function()pcall(function()setclipboard(j)end)St.Text="✅ Link copied!"St.TextColor3=Color3.fromRGB(0,255,0)end)
-local In=Instance.new("TextBox")In.Size=UDim2.new(1,-40,0,32)In.Position=UDim2.new(0,20,0,108)In.BackgroundColor3=Color3.fromRGB(10,10,14)In.BorderSizePixel=0 In.Font=Enum.Font.Code In.Text=""In.TextColor3=Color3.fromRGB(0,255,150)In.TextSize=12 In.Parent=F v(In,6)
-local Sb=Instance.new("TextButton")Sb.Size=UDim2.new(1,-40,0,32)Sb.Position=UDim2.new(0,20,0,146)Sb.BackgroundColor3=Color3.fromRGB(0,180,100)Sb.BorderSizePixel=0 Sb.Font=Enum.Font.GothamBold Sb.Text="✅ SUBMIT"Sb.TextColor3=Color3.fromRGB(255,255,255)Sb.TextSize=13 Sb.Parent=F v(Sb,6)
-local St=Instance.new("TextLabel")St.Size=UDim2.new(1,-40,0,18)St.Position=UDim2.new(0,20,0,182)St.BackgroundTransparency=1 St.Font=Enum.Font.GothamMedium St.Text="Copy ID → Website → Get key → Paste"St.TextColor3=Color3.fromRGB(150,150,150)St.TextSize=9 St.TextXAlignment=Enum.TextXAlignment.Center St.Parent=F
-local CR2=Instance.new("TextLabel")CR2.Size=UDim2.new(1,-40,0,12)CR2.Position=UDim2.new(0,20,0,198)CR2.BackgroundTransparency=1 CR2.Font=Enum.Font.GothamMedium CR2.Text="Made by cloudvuacc"CR2.TextColor3=Color3.fromRGB(60,60,80)CR2.TextSize=8 CR2.TextXAlignment=Enum.TextXAlignment.Center CR2.Parent=F
-local function PK(k)k=k:gsub("%s+",""):upper()if k==""then St.Text="❌ Enter key!"return end if q(k)then if not getgenv()._k or getgenv()._k==0 then o=os.time()s()end St.Text="✅ Valid!"task.wait(1)G:Destroy()w()else St.Text="❌ Invalid!"end end
-Sb.MouseButton1Click:Connect(function()PK(In.Text)end)In.FocusLost:Connect(function(EP)if EP then PK(In.Text)end end)end
-if n then w()else x()end
+local WebhookURL = SavedWebhookURL
+local LastWebhookSent = 0
+local UpdateInterval = 300
+local DisconnectSent = false
+local PlayerName = LocalPlayer.Name
+local GameName = "Unknown Game"
+pcall(function() GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name end)
+
+-- Auto-load key config
+local ACTIVATED = false
+local ACTIVATED_TIME = 0
+pcall(function()
+    if getgenv().AntiAFK_ActivatedTime and getgenv().AntiAFK_ActivatedTime > 0 then
+        ACTIVATED_TIME = getgenv().AntiAFK_ActivatedTime
+        if os.time() - ACTIVATED_TIME < 86400 then ACTIVATED = true end
+    end
+end)
+if not ACTIVATED then
+    pcall(function()
+        if isfile and readfile and isfile("AntiAFK_Activated.txt") then
+            local data = HttpService:JSONDecode(readfile("AntiAFK_Activated.txt"))
+            if data and data.time and data.userId == LocalPlayer.UserId then
+                ACTIVATED_TIME = data.time
+                if os.time() - ACTIVATED_TIME < 86400 then ACTIVATED = true end
+            end
+        end
+    end)
+end
+
+-- Cleanup
+for _, v in ipairs(CoreGui:GetChildren()) do
+    if v:IsA("ScreenGui") then v:Destroy() end
+end
+
+-- Key check
+local function CheckKey(k)
+    k = k:gsub("%s+", ""):upper()
+    if not k:match("^DEDSEC%-") then return false end
+    local parts = {}
+    for p in k:gmatch("[^-]+") do table.insert(parts, p) end
+    if #parts ~= 4 then return false end
+    local keyUserId = tonumber(parts[2], 36)
+    if not keyUserId or keyUserId ~= LocalPlayer.UserId then return false end
+    if #parts[3] ~= 10 or not parts[3]:match("^%d+$") then return false end
+    local t = os.date("*t")
+    local cur = string.format("%04d%02d%02d%02d", t.year, t.month, t.day, t.hour)
+    if parts[3] == cur then return true end
+    t.hour = t.hour - 1
+    if t.hour < 0 then t.hour = 23; t.day = t.day - 1 end
+    if parts[3] == string.format("%04d%02d%02d%02d", t.year, t.month, t.day, t.hour) then return true end
+    return false
+end
+
+-- Save functions
+local function SaveConfig(URL)
+    WebhookURL = URL
+    getgenv().AntiAFK_WebhookURL = URL
+    pcall(function()
+        if isfile and writefile then
+            writefile("AntiAFK_Config.json", HttpService:JSONEncode({WebhookURL = URL, PlayerName = PlayerName}))
+        end
+    end)
+end
+
+local function SaveActivation()
+    getgenv().AntiAFK_ActivatedTime = ACTIVATED_TIME
+    pcall(function()
+        if isfile and writefile then
+            writefile("AntiAFK_Activated.txt", HttpService:JSONEncode({userId = LocalPlayer.UserId, time = ACTIVATED_TIME}))
+        end
+    end)
+end
+
+local function FormatTime(s)
+    return string.format("%02d:%02d:%02d", math.floor(s/3600), math.floor((s%3600)/60), math.floor(s%60))
+end
+
+-- Webhook
+local function SendWebhook(Title, Desc, Color)
+    if WebhookURL == "" then return false end
+    return pcall(function()
+        local Payload = {
+            ["content"] = "",
+            ["embeds"] = {{
+                ["title"] = Title,
+                ["description"] = Desc,
+                ["color"] = Color or 65280,
+                ["footer"] = {["text"] = "V0.0 | " .. PlayerName}
+            }}
+        }
+        local Body = HttpService:JSONEncode(Payload)
+        local Response = request or http_request or syn.request
+        if Response then
+            Response({Url = WebhookURL, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = Body})
+        end
+    end)
+end
+
+local function SendMenuCloseNotification()
+    if WebhookURL == "" then return end
+    SendWebhook("🔒 Menu Closed", "**Account:** " .. PlayerName, 16753920)
+end
+
+local function SendToggleNotification(Enabled)
+    if WebhookURL == "" then return end
+    SendWebhook(Enabled and "🟢 AFK ON" or "🔴 AFK OFF", "**Account:** " .. PlayerName, Enabled and 65280 or 16711680)
+end
+
+-- Anti-AFK
+local function AntiAFK_Action()
+    if not AntiAFK_Enabled then return end
+    pcall(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new(math.random(100,600), math.random(100,400)))
+    end)
+end
+
+-- Block AFK Kick
+pcall(function()
+    local OldKick = hookfunction(LocalPlayer.Kick, newcclosure(function(self, Msg)
+        if not AntiAFK_Enabled then return OldKick(self, Msg) end
+        if type(Msg) == "string" and (Msg:lower():find("afk") or Msg:lower():find("idle")) then return nil end
+        return OldKick(self, Msg)
+    end))
+end)
+
+local function R(obj, r) Instance.new("UICorner", obj).CornerRadius = UDim.new(0, r or 8) end
+
+--============================================
+-- MAIN MENU
+--============================================
+local function ShowMainMenu()
+    for _, v in ipairs(CoreGui:GetChildren()) do
+        if v.Name == "AFK_Key" then v:Destroy() end
+    end
+
+    local Gui = Instance.new("ScreenGui")
+    Gui.Name = "AntiAFK_Final"
+    Gui.ResetOnSpawn = false
+    Gui.Parent = CoreGui
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 320, 0, 310)
+    Frame.Position = UDim2.new(0.5, -160, 0.3, 0)
+    Frame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = Gui
+    R(Frame, 10)
+
+    local TopBar = Instance.new("Frame")
+    TopBar.Size = UDim2.new(1, 0, 0, 35)
+    TopBar.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+    TopBar.BorderSizePixel = 0
+    TopBar.Parent = Frame
+    R(TopBar, 10)
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, -50, 1, 0)
+    Title.Position = UDim2.new(0, 12, 0, 0)
+    Title.BackgroundTransparency = 1
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "🛡️ V0.0 ANTI AFK"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 12
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.Parent = TopBar
+
+    local CloseBtn = Instance.new("TextButton")
+    CloseBtn.Size = UDim2.new(0, 28, 0, 28)
+    CloseBtn.Position = UDim2.new(1, -34, 0, 3)
+    CloseBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    CloseBtn.BorderSizePixel = 0
+    CloseBtn.Font = Enum.Font.Code
+    CloseBtn.Text = "X"
+    CloseBtn.TextColor3 = Color3.fromRGB(220, 220, 220)
+    CloseBtn.TextSize = 16
+    CloseBtn.Parent = TopBar
+    R(CloseBtn, 4)
+    CloseBtn.MouseButton1Click:Connect(function()
+        SendMenuCloseNotification()
+        Gui:Destroy()
+    end)
+
+    -- Key Status
+    local KeyStatus = Instance.new("TextLabel")
+    KeyStatus.Size = UDim2.new(1, -24, 0, 14)
+    KeyStatus.Position = UDim2.new(0, 12, 0, 40)
+    KeyStatus.BackgroundTransparency = 1
+    KeyStatus.Font = Enum.Font.GothamMedium
+    KeyStatus.TextSize = 9
+    KeyStatus.TextXAlignment = Enum.TextXAlignment.Center
+    KeyStatus.Parent = Frame
+    if ACTIVATED_TIME > 0 then
+        local rem = 86400 - (os.time() - ACTIVATED_TIME)
+        if rem > 0 then
+            KeyStatus.Text = "🔑 " .. math.floor(rem/3600) .. "h " .. math.floor((rem%3600)/60) .. "m left"
+            KeyStatus.TextColor3 = Color3.fromRGB(0, 255, 0)
+        else
+            KeyStatus.Text = "🔑 Expired!"
+            KeyStatus.TextColor3 = Color3.fromRGB(255, 100, 100)
+        end
+    else
+        KeyStatus.Text = "🔑 Activated ✓"
+        KeyStatus.TextColor3 = Color3.fromRGB(0, 255, 0)
+    end
+
+    -- User Info
+    local UserFrame = Instance.new("Frame")
+    UserFrame.Size = UDim2.new(1, -24, 0, 26)
+    UserFrame.Position = UDim2.new(0, 12, 0, 56)
+    UserFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
+    UserFrame.BorderSizePixel = 0
+    UserFrame.Parent = Frame
+    R(UserFrame, 6)
+
+    local UserLabel = Instance.new("TextLabel")
+    UserLabel.Size = UDim2.new(1, -60, 1, 0)
+    UserLabel.Position = UDim2.new(0, 8, 0, 0)
+    UserLabel.BackgroundTransparency = 1
+    UserLabel.Font = Enum.Font.GothamMedium
+    UserLabel.Text = "👤 " .. PlayerName .. " | ID: " .. LocalPlayer.UserId
+    UserLabel.TextColor3 = Color3.fromRGB(180, 180, 255)
+    UserLabel.TextSize = 10
+    UserLabel.TextXAlignment = Enum.TextXAlignment.Left
+    UserLabel.Parent = UserFrame
+
+    local CopyID = Instance.new("TextButton")
+    CopyID.Size = UDim2.new(0, 50, 0, 16)
+    CopyID.Position = UDim2.new(1, -56, 0, 5)
+    CopyID.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+    CopyID.BorderSizePixel = 0
+    CopyID.Font = Enum.Font.GothamMedium
+    CopyID.Text = "COPY ID"
+    CopyID.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CopyID.TextSize = 9
+    CopyID.Parent = UserFrame
+    R(CopyID, 4)
+    CopyID.MouseButton1Click:Connect(function()
+        pcall(function() setclipboard(tostring(LocalPlayer.UserId)) end)
+    end)
+
+    -- Uptime
+    local UptimeFrame = Instance.new("Frame")
+    UptimeFrame.Size = UDim2.new(1, -24, 0, 34)
+    UptimeFrame.Position = UDim2.new(0, 12, 0, 86)
+    UptimeFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    UptimeFrame.BorderSizePixel = 0
+    UptimeFrame.Parent = Frame
+    R(UptimeFrame, 6)
+
+    local UptimeValue = Instance.new("TextLabel")
+    UptimeValue.Size = UDim2.new(1, -10, 1, 0)
+    UptimeValue.Position = UDim2.new(0, 5, 0, 0)
+    UptimeValue.BackgroundTransparency = 1
+    UptimeValue.Font = Enum.Font.GothamBold
+    UptimeValue.Text = "⏱️ 00:00:00"
+    UptimeValue.TextColor3 = Color3.fromRGB(0, 255, 200)
+    UptimeValue.TextSize = 14
+    UptimeValue.TextXAlignment = Enum.TextXAlignment.Center
+    UptimeValue.Parent = UptimeFrame
+
+    -- Webhook Input
+    local WebhookLabel = Instance.new("TextLabel")
+    WebhookLabel.Size = UDim2.new(1, -24, 0, 14)
+    WebhookLabel.Position = UDim2.new(0, 12, 0, 124)
+    WebhookLabel.BackgroundTransparency = 1
+    WebhookLabel.Font = Enum.Font.GothamBold
+    WebhookLabel.Text = "📡 WEBHOOK URL:"
+    WebhookLabel.TextColor3 = Color3.fromRGB(100, 200, 255)
+    WebhookLabel.TextSize = 10
+    WebhookLabel.TextXAlignment = Enum.TextXAlignment.Left
+    WebhookLabel.Parent = Frame
+
+    local InputContainer = Instance.new("Frame")
+    InputContainer.Size = UDim2.new(1, -24, 0, 28)
+    InputContainer.Position = UDim2.new(0, 12, 0, 140)
+    InputContainer.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    InputContainer.BorderSizePixel = 0
+    InputContainer.ClipsDescendants = true
+    InputContainer.Parent = Frame
+    R(InputContainer, 6)
+
+    local WebhookInput = Instance.new("TextBox")
+    WebhookInput.Size = UDim2.new(1, -12, 1, -6)
+    WebhookInput.Position = UDim2.new(0, 6, 0, 3)
+    WebhookInput.BackgroundTransparency = 1
+    WebhookInput.BorderSizePixel = 0
+    WebhookInput.Font = Enum.Font.Code
+    WebhookInput.Text = WebhookURL or ""
+    WebhookInput.TextColor3 = Color3.fromRGB(255, 255, 255)
+    WebhookInput.TextSize = 10
+    WebhookInput.TextXAlignment = Enum.TextXAlignment.Left
+    WebhookInput.TextTruncate = Enum.TextTruncate.AtEnd
+    WebhookInput.ClearTextOnFocus = false
+    WebhookInput.Parent = InputContainer
+
+    -- Buttons
+    local SaveBtn = Instance.new("TextButton")
+    SaveBtn.Size = UDim2.new(0.5, -18, 0, 26)
+    SaveBtn.Position = UDim2.new(0, 12, 0, 172)
+    SaveBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 100)
+    SaveBtn.BorderSizePixel = 0
+    SaveBtn.Font = Enum.Font.GothamBold
+    SaveBtn.Text = "💾 SAVE"
+    SaveBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SaveBtn.TextSize = 10
+    SaveBtn.Parent = Frame
+    R(SaveBtn, 6)
+    SaveBtn.MouseButton1Click:Connect(function()
+        SaveConfig(WebhookInput.Text)
+        ConfigStatus.Text = WebhookURL ~= "" and "💾 Config: Saved ✓" or "💾 Config: No URL"
+        ConfigStatus.TextColor3 = WebhookURL ~= "" and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 180, 50)
+    end)
+
+    local TestBtn = Instance.new("TextButton")
+    TestBtn.Size = UDim2.new(0.5, -18, 0, 26)
+    TestBtn.Position = UDim2.new(0.5, 6, 0, 172)
+    TestBtn.BackgroundColor3 = Color3.fromRGB(255, 160, 0)
+    TestBtn.BorderSizePixel = 0
+    TestBtn.Font = Enum.Font.GothamBold
+    TestBtn.Text = "🧪 TEST"
+    TestBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TestBtn.TextSize = 10
+    TestBtn.Parent = Frame
+    R(TestBtn, 6)
+    TestBtn.MouseButton1Click:Connect(function()
+        if WebhookInput.Text ~= "" then SaveConfig(WebhookInput.Text) end
+        if WebhookURL ~= "" then
+            SendWebhook("🧪 Test", "✅ Webhook active!\n**" .. PlayerName .. "**", 3447003)
+        end
+    end)
+
+    -- Config Status
+    local ConfigStatus = Instance.new("TextLabel")
+    ConfigStatus.Size = UDim2.new(1, -24, 0, 12)
+    ConfigStatus.Position = UDim2.new(0, 12, 0, 202)
+    ConfigStatus.BackgroundTransparency = 1
+    ConfigStatus.Font = Enum.Font.GothamMedium
+    ConfigStatus.Text = WebhookURL ~= "" and "💾 Config: Saved ✓" or "💾 Config: No URL"
+    ConfigStatus.TextColor3 = WebhookURL ~= "" and Color3.fromRGB(0, 255, 100) or Color3.fromRGB(255, 180, 50)
+    ConfigStatus.TextSize = 9
+    ConfigStatus.TextXAlignment = Enum.TextXAlignment.Left
+    ConfigStatus.Parent = Frame
+
+    -- AFK Status
+    local StatusSection = Instance.new("Frame")
+    StatusSection.Size = UDim2.new(1, -24, 0, 22)
+    StatusSection.Position = UDim2.new(0, 12, 0, 216)
+    StatusSection.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    StatusSection.BorderSizePixel = 0
+    StatusSection.Parent = Frame
+    R(StatusSection, 6)
+
+    local StatusDot = Instance.new("Frame")
+    StatusDot.Size = UDim2.new(0, 8, 0, 8)
+    StatusDot.Position = UDim2.new(0, 8, 0, 7)
+    StatusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    StatusDot.BorderSizePixel = 0
+    StatusDot.Parent = StatusSection
+    R(StatusDot, 4)
+
+    local StatusText = Instance.new("TextLabel")
+    StatusText.Size = UDim2.new(1, -20, 1, 0)
+    StatusText.Position = UDim2.new(0, 20, 0, 0)
+    StatusText.BackgroundTransparency = 1
+    StatusText.Font = Enum.Font.GothamMedium
+    StatusText.Text = "PROTECTION: ACTIVE"
+    StatusText.TextColor3 = Color3.fromRGB(0, 255, 0)
+    StatusText.TextSize = 10
+    StatusText.TextXAlignment = Enum.TextXAlignment.Left
+    StatusText.Parent = StatusSection
+
+    -- Toggle
+    local ToggleBtn = Instance.new("TextButton")
+    ToggleBtn.Size = UDim2.new(1, -24, 0, 28)
+    ToggleBtn.Position = UDim2.new(0, 12, 0, 242)
+    ToggleBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+    ToggleBtn.BorderSizePixel = 0
+    ToggleBtn.Font = Enum.Font.GothamBold
+    ToggleBtn.Text = "🟢 ANTI-AFK: ON"
+    ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ToggleBtn.TextSize = 11
+    ToggleBtn.Parent = Frame
+    R(ToggleBtn, 6)
+
+    local function UpdateToggle()
+        if AntiAFK_Enabled then
+            ToggleBtn.Text = "🟢 ANTI-AFK: ON"
+            ToggleBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 100)
+            StatusDot.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+            StatusText.Text = "PROTECTION: ACTIVE"
+            StatusText.TextColor3 = Color3.fromRGB(0, 255, 0)
+        else
+            ToggleBtn.Text = "🔴 ANTI-AFK: OFF"
+            ToggleBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+            StatusDot.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            StatusText.Text = "PROTECTION: DISABLED"
+            StatusText.TextColor3 = Color3.fromRGB(255, 50, 50)
+        end
+    end
+    ToggleBtn.MouseButton1Click:Connect(function()
+        AntiAFK_Enabled = not AntiAFK_Enabled
+        UpdateToggle()
+        SendToggleNotification(AntiAFK_Enabled)
+    end)
+
+    -- Credit
+    local Credit = Instance.new("TextLabel")
+    Credit.Size = UDim2.new(1, -24, 0, 14)
+    Credit.Position = UDim2.new(0, 12, 0, 274)
+    Credit.BackgroundTransparency = 1
+    Credit.Font = Enum.Font.GothamMedium
+    Credit.Text = "Shift: Hide | F4: Toggle | X: Close | Made by cloudvuacc"
+    Credit.TextColor3 = Color3.fromRGB(80, 80, 80)
+    Credit.TextSize = 9
+    Credit.TextXAlignment = Enum.TextXAlignment.Center
+    Credit.Parent = Frame
+
+    -- Drag
+    local dragging, dragStart, startPos = false, Vector2.new(0, 0), Frame.Position
+    TopBar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true; dragStart = input.Position; startPos = Frame.Position
+        end
+    end)
+    UserInputService.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
+    end)
+    UserInputService.InputChanged:Connect(function(input)
+        if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+            local delta = input.Position - dragStart
+            Frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+
+    -- Updates
+    spawn(function()
+        while Gui and Gui.Parent do
+            UptimeValue.Text = "⏱️ " .. FormatTime(tick() - StartTime)
+            if WebhookURL ~= "" and AntiAFK_Enabled and (tick() - LastWebhookSent) >= UpdateInterval then
+                SendWebhook("⏱️ Uptime", "**" .. PlayerName .. "**\n⏱️ " .. FormatTime(tick() - StartTime), 16776960)
+                LastWebhookSent = tick()
+            end
+            task.wait(0.1)
+        end
+    end)
+    spawn(function()
+        while Gui and Gui.Parent do
+            if AntiAFK_Enabled then
+                StatusDot.BackgroundColor3 = Color3.fromRGB(0, 255 * (math.sin(tick() * 4) * 0.4 + 0.6), 0)
+            end
+            task.wait(0.05)
+        end
+    end)
+    spawn(function()
+        while Gui and Gui.Parent do
+            AntiAFK_Action()
+            task.wait(math.random(25, 45))
+        end
+    end)
+
+    LocalPlayer.CharacterAdded:Connect(function(char)
+        local hum = char:FindFirstChildOfClass("Humanoid")
+        if hum then hum.Idled:Connect(function() if AntiAFK_Enabled then AntiAFK_Action() end end) end
+    end)
+    if LocalPlayer.Character then
+        local hum = LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum.Idled:Connect(function() if AntiAFK_Enabled then AntiAFK_Action() end end) end
+    end
+
+    UserInputService.InputBegan:Connect(function(input, gp)
+        if not gp then
+            if input.KeyCode == Enum.KeyCode.F4 then
+                AntiAFK_Enabled = not AntiAFK_Enabled
+                UpdateToggle()
+                SendToggleNotification(AntiAFK_Enabled)
+            elseif input.KeyCode == Enum.KeyCode.LeftShift or input.KeyCode == Enum.KeyCode.RightShift then
+                Frame.Visible = not Frame.Visible
+            end
+        end
+    end)
+end
+
+--============================================
+-- KEY GUI
+--============================================
+local function ShowKeyGUI()
+    local Gui = Instance.new("ScreenGui")
+    Gui.Name = "AFK_Key"
+    Gui.ResetOnSpawn = false
+    Gui.Parent = CoreGui
+
+    local Frame = Instance.new("Frame")
+    Frame.Size = UDim2.new(0, 360, 0, 210)
+    Frame.Position = UDim2.new(0.5, -180, 0.4, -105)
+    Frame.BackgroundColor3 = Color3.fromRGB(18, 18, 22)
+    Frame.BorderSizePixel = 0
+    Frame.Parent = Gui
+    R(Frame, 12)
+
+    local CloseX = Instance.new("TextButton")
+    CloseX.Size = UDim2.new(0, 26, 0, 26)
+    CloseX.Position = UDim2.new(1, -32, 0, 6)
+    CloseX.BackgroundColor3 = Color3.fromRGB(220, 40, 40)
+    CloseX.BorderSizePixel = 0
+    CloseX.Font = Enum.Font.GothamBold
+    CloseX.Text = "✕"
+    CloseX.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseX.TextSize = 13
+    CloseX.Parent = Frame
+    R(CloseX, 6)
+    CloseX.MouseButton1Click:Connect(function() Gui:Destroy() end)
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 24)
+    Title.Position = UDim2.new(0, 0, 0, 10)
+    Title.BackgroundTransparency = 1
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = "🔑 ENTER KEY"
+    Title.TextColor3 = Color3.fromRGB(0, 255, 150)
+    Title.TextSize = 15
+    Title.Parent = Frame
+
+    local UserFrame = Instance.new("Frame")
+    UserFrame.Size = UDim2.new(1, -40, 0, 26)
+    UserFrame.Position = UDim2.new(0, 20, 0, 38)
+    UserFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 16)
+    UserFrame.BorderSizePixel = 0
+    UserFrame.Parent = Frame
+    R(UserFrame, 6)
+
+    local UserLabel = Instance.new("TextLabel")
+    UserLabel.Size = UDim2.new(1, -55, 1, 0)
+    UserLabel.Position = UDim2.new(0, 8, 0, 0)
+    UserLabel.BackgroundTransparency = 1
+    UserLabel.Font = Enum.Font.GothamMedium
+    UserLabel.Text = "👤 ID: " .. LocalPlayer.UserId
+    UserLabel.TextColor3 = Color3.fromRGB(180, 180, 255)
+    UserLabel.TextSize = 10
+    UserLabel.TextXAlignment = Enum.TextXAlignment.Left
+    UserLabel.Parent = UserFrame
+
+    local CopyBtn = Instance.new("TextButton")
+    CopyBtn.Size = UDim2.new(0, 45, 0, 16)
+    CopyBtn.Position = UDim2.new(1, -50, 0, 5)
+    CopyBtn.BackgroundColor3 = Color3.fromRGB(80, 80, 100)
+    CopyBtn.BorderSizePixel = 0
+    CopyBtn.Font = Enum.Font.GothamMedium
+    CopyBtn.Text = "COPY"
+    CopyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CopyBtn.TextSize = 8
+    CopyBtn.Parent = UserFrame
+    R(CopyBtn, 4)
+    CopyBtn.MouseButton1Click:Connect(function()
+        pcall(function() setclipboard(tostring(LocalPlayer.UserId)) end)
+        Status.Text = "✅ ID copied!"
+        Status.TextColor3 = Color3.fromRGB(0, 255, 0)
+    end)
+
+    local GetKeyBtn = Instance.new("TextButton")
+    GetKeyBtn.Size = UDim2.new(1, -40, 0, 32)
+    GetKeyBtn.Position = UDim2.new(0, 20, 0, 70)
+    GetKeyBtn.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+    GetKeyBtn.BorderSizePixel = 0
+    GetKeyBtn.Font = Enum.Font.GothamBold
+    GetKeyBtn.Text = "🔗 GET KEY"
+    GetKeyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    GetKeyBtn.TextSize = 12
+    GetKeyBtn.Parent = Frame
+    R(GetKeyBtn, 6)
+    GetKeyBtn.MouseButton1Click:Connect(function()
+        pcall(function() setclipboard(LINK) end)
+        Status.Text = "✅ Link copied!"
+        Status.TextColor3 = Color3.fromRGB(0, 255, 0)
+    end)
+
+    local Input = Instance.new("TextBox")
+    Input.Size = UDim2.new(1, -40, 0, 32)
+    Input.Position = UDim2.new(0, 20, 0, 108)
+    Input.BackgroundColor3 = Color3.fromRGB(10, 10, 14)
+    Input.BorderSizePixel = 0
+    Input.Font = Enum.Font.Code
+    Input.Text = ""
+    Input.TextColor3 = Color3.fromRGB(0, 255, 150)
+    Input.TextSize = 12
+    Input.Parent = Frame
+    R(Input, 6)
+
+    local SubmitBtn = Instance.new("TextButton")
+    SubmitBtn.Size = UDim2.new(1, -40, 0, 32)
+    SubmitBtn.Position = UDim2.new(0, 20, 0, 146)
+    SubmitBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 100)
+    SubmitBtn.BorderSizePixel = 0
+    SubmitBtn.Font = Enum.Font.GothamBold
+    SubmitBtn.Text = "✅ SUBMIT"
+    SubmitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SubmitBtn.TextSize = 13
+    SubmitBtn.Parent = Frame
+    R(SubmitBtn, 6)
+
+    local Status = Instance.new("TextLabel")
+    Status.Size = UDim2.new(1, -40, 0, 18)
+    Status.Position = UDim2.new(0, 20, 0, 182)
+    Status.BackgroundTransparency = 1
+    Status.Font = Enum.Font.GothamMedium
+    Status.Text = "Copy ID → Website → Get key → Paste"
+    Status.TextColor3 = Color3.fromRGB(150, 150, 150)
+    Status.TextSize = 9
+    Status.TextXAlignment = Enum.TextXAlignment.Center
+    Status.Parent = Frame
+
+    local Credit2 = Instance.new("TextLabel")
+    Credit2.Size = UDim2.new(1, -40, 0, 12)
+    Credit2.Position = UDim2.new(0, 20, 0, 198)
+    Credit2.BackgroundTransparency = 1
+    Credit2.Font = Enum.Font.GothamMedium
+    Credit2.Text = "Made by cloudvuacc"
+    Credit2.TextColor3 = Color3.fromRGB(60, 60, 80)
+    Credit2.TextSize = 8
+    Credit2.TextXAlignment = Enum.TextXAlignment.Center
+    Credit2.Parent = Frame
+
+    local function ProcessKey(k)
+        k = k:gsub("%s+", ""):upper()
+        if k == "" then Status.Text = "❌ Enter key!"; return end
+        if CheckKey(k) then
+            if not getgenv().AntiAFK_ActivatedTime or getgenv().AntiAFK_ActivatedTime == 0 then
+                ACTIVATED_TIME = os.time()
+                SaveActivation()
+            end
+            Status.Text = "✅ Valid!"; Status.TextColor3 = Color3.fromRGB(0, 255, 0)
+            task.wait(1); Gui:Destroy(); ShowMainMenu()
+        else
+            Status.Text = "❌ Invalid!"; Status.TextColor3 = Color3.fromRGB(255, 50, 50)
+        end
+    end
+
+    SubmitBtn.MouseButton1Click:Connect(function() ProcessKey(Input.Text) end)
+    Input.FocusLost:Connect(function(EP) if EP then ProcessKey(Input.Text) end end)
+end
+
+-- START
+if ACTIVATED then ShowMainMenu() else ShowKeyGUI() end
