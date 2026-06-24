@@ -1,5 +1,5 @@
 --[[ V0.0 - cloudvuacc ]]
-local _0x1=_G;local _0x2=shared;local _0x3=getgenv;local _0x4=game;local _0x5=_0x4:GetService;local _0x6=_0x5(_0x4,"HttpService");local _0x7=_0x5(_0x4,"Players");local _0x8=_0x7.LocalPlayer;local _0x9=_0x5(_0x4,"CoreGui");local _0xa=_0x5(_0x4,"UserInputService");local _0xb=_0x5(_0x4,"TweenService");local _0xc=_0x5(_0x4,"VirtualUser");local _0xd=_0x5(_0x4,"StarterGui");local _0xe="https://link-center.net/6819549/eLZPTLtWBC8k";local _0xf=tick();local _0x10=true;local _0x11="";local _0x12=false;local _0x13=0;local _0x14=0;local _0x15=300;local _0x16=false;local _0x17=_0x8.Name;local _0x18="???";pcall(function()_0x18=_0x5(_0x4,"MarketplaceService"):GetProductInfo(_0x4.PlaceId).Name end)
+local _0x1=_G;local _0x2=shared;local _0x3=getgenv;local _0x4=game;local _0x5=_0x4:GetService;local _0x6=_0x5(_0x4,"HttpService");local _0x7=_0x5(_0x4,"Players");local _0x8=_0x7.LocalPlayer;local _0x9=_0x5(_0x4,"CoreGui");local _0xa=_0x5(_0x4,"UserInputService");local _0xb=_0x5(_0x4,"TweenService");local _0xc=_0x5(_0x4,"VirtualUser");local _0xd=_0x5(_0x4,"StarterGui");local _0xe="https://link-center.net/6819549/eLZPTLtWBC8k";local _0xf=tick();local _0x10=true;local _0x11="";local _0x12=false;local _0x13=0;local _0x14=0;local _0x15=300;local _0x17=_0x8.Name;local _0x18="???";pcall(function()_0x18=_0x5(_0x4,"MarketplaceService"):GetProductInfo(_0x4.PlaceId).Name end)
 pcall(function()if _0x3()._k and _0x3()._k>0 then _0x12=true;_0x13=_0x3()._k end end)if not _0x12 then pcall(function()if _0x2._k and _0x2._k>0 then _0x12=true;_0x13=_0x2._k end end)end if not _0x12 then pcall(function()if _0x1._k and _0x1._k>0 then _0x12=true;_0x13=_0x1._k end end)end if not _0x12 then pcall(function()if isfile and readfile and isfile("_k.cfg")then local z=_0x6:JSONDecode(readfile("_k.cfg"))if z and z.u==_0x8.UserId and z.t>0 then if os.time()-z.t<86400 then _0x13=z.t;_0x12=true end end end end)end
 pcall(function()if _0x3()._w and _0x3()._w~=""then _0x11=_0x3()._w end end)if _0x11==""then pcall(function()if _0x2._w and _0x2._w~=""then _0x11=_0x2._w end end)end if _0x11==""then pcall(function()if _0x1._w and _0x1._w~=""then _0x11=_0x1._w end end)end if _0x11==""then pcall(function()if isfile and readfile and isfile("_w.cfg")then local z=_0x6:JSONDecode(readfile("_w.cfg"))if z and z.u and z.u~=""then _0x11=z.u end end end)end
 for _,v in ipairs(_0x9:GetChildren())do if v:IsA("ScreenGui")then v:Destroy()end end
@@ -8,15 +8,18 @@ local function _0x1d(u)_0x11=u;_0x3()._w=u;_0x2._w=u;_0x1._w=u;pcall(function()i
 local function _0x1e()_0x3()._k=_0x13;_0x2._k=_0x13;_0x1._k=_0x13;pcall(function()if isfile and writefile then writefile("_k.cfg",_0x6:JSONEncode({u=_0x8.UserId,t=_0x13,n=_0x17}))end end)end
 local function _0x1f(s)return string.format("%02d:%02d:%02d",math.floor(s/3600),math.floor((s%3600)/60),math.floor(s%60))end
 
--- Webhook (dùng syn.request + http_request + request)
+-- Webhook dùng game:HttpGet (Xeno hỗ trợ)
 local function _0x20(T,D,C)
     if _0x11==""then return false end
-    local P={["content"]=nil,["embeds"]={{["title"]=T,["description"]=D,["color"]=C or 65280,["footer"]={["text"]="V0.0 | ".._0x17},["timestamp"]=os.date("!%Y-%m-%dT%H:%M:%SZ")}}}
-    local B=_0x6:JSONEncode(P)
     local ok=false
-    pcall(function()syn.request({Url=_0x11,Method="POST",Headers={["Content-Type"]="application/json"},Body=B})ok=true end)
-    if not ok then pcall(function()http_request({Url=_0x11,Method="POST",Headers={["Content-Type"]="application/json"},Body=B})ok=true end)end
-    if not ok then pcall(function()request({Url=_0x11,Method="POST",Headers={["Content-Type"]="application/json"},Body=B})ok=true end)end
+    pcall(function()
+        local P={["content"]="",["embeds"]={{["title"]=T,["description"]=D,["color"]=C or 65280,["footer"]={["text"]="V0.0 | ".._0x17}}}}
+        local B=_0x6:URLEncode(_0x6:JSONEncode(P))
+        local url=_0x11.."?wait=true"
+        -- Thử POST qua HttpService (cách duy nhất Xeno hỗ trợ)
+        game:HttpGet(url.."&payload="..B)
+        ok=true
+    end)
     return ok
 end
 
@@ -33,7 +36,7 @@ local F=Instance.new("Frame")F.Size=UDim2.new(0,320,0,310)F.Position=UDim2.new(0
 local TB=Instance.new("Frame")TB.Size=UDim2.new(1,0,0,35)TB.BackgroundColor3=Color3.fromRGB(22,22,22)TB.BorderSizePixel=0 TB.Parent=F _0x22(TB,10)
 local TC=Instance.new("Frame")TC.Size=UDim2.new(1,0,0.5,0)TC.Position=UDim2.new(0,0,0.5,0)TC.BackgroundColor3=Color3.fromRGB(22,22,22)TC.BorderSizePixel=0 TC.Parent=TB
 local Ti=Instance.new("TextLabel")Ti.Size=UDim2.new(1,-50,1,0)Ti.Position=UDim2.new(0,12,0,0)Ti.BackgroundTransparency=1 Ti.Font=Enum.Font.GothamBold Ti.Text="🛡️ V0.0 ANTI AFK"Ti.TextColor3=Color3.fromRGB(255,255,255)Ti.TextSize=12 Ti.TextXAlignment=Enum.TextXAlignment.Left Ti.Parent=TB
-local CB=Instance.new("TextButton")CB.Size=UDim2.new(0,28,0,28)CB.Position=UDim2.new(1,-34,0,3)CB.BackgroundColor3=Color3.fromRGB(45,45,45)CB.BorderSizePixel=0 CB.Font=Enum.Font.Code CB.Text="X"CB.TextColor3=Color3.fromRGB(220,220,220)CB.TextSize=16 CB.Parent=TB _0x22(CB,4)CB.MouseButton1Click:Connect(function()if _0x11~=""then _0x20("🔒 Menu Closed","Account: ".._0x17,16753920)end G:Destroy()end)
+local CB=Instance.new("TextButton")CB.Size=UDim2.new(0,28,0,28)CB.Position=UDim2.new(1,-34,0,3)CB.BackgroundColor3=Color3.fromRGB(45,45,45)CB.BorderSizePixel=0 CB.Font=Enum.Font.Code CB.Text="X"CB.TextColor3=Color3.fromRGB(220,220,220)CB.TextSize=16 CB.Parent=TB _0x22(CB,4)CB.MouseButton1Click:Connect(function()if _0x11~=""then _0x20("🔒 Menu Closed","**".._0x17.."**",16753920)end G:Destroy()end)
 local KS=Instance.new("TextLabel")KS.Size=UDim2.new(1,-24,0,14)KS.Position=UDim2.new(0,12,0,40)KS.BackgroundTransparency=1 KS.Font=Enum.Font.GothamMedium KS.TextSize=9 KS.TextXAlignment=Enum.TextXAlignment.Center KS.Parent=F
 if _0x13>0 then local rem=86400-(os.time()-_0x13)if rem>0 then KS.Text="🔑 "..math.floor(rem/3600).."h "..math.floor((rem%3600)/60).."m left"KS.TextColor3=Color3.fromRGB(0,255,0)else KS.Text="🔑 Expired!"KS.TextColor3=Color3.fromRGB(255,100,100)end else KS.Text="🔑 Activated ✓"KS.TextColor3=Color3.fromRGB(0,255,0)end
 local UIF=Instance.new("Frame")UIF.Size=UDim2.new(1,-24,0,26)UIF.Position=UDim2.new(0,12,0,56)UIF.BackgroundColor3=Color3.fromRGB(12,12,16)UIF.BorderSizePixel=0 UIF.Parent=F _0x22(UIF,6)
@@ -44,20 +47,48 @@ local UV=Instance.new("TextLabel")UV.Size=UDim2.new(1,-10,1,0)UV.Position=UDim2.
 local WL=Instance.new("TextLabel")WL.Size=UDim2.new(1,-24,0,14)WL.Position=UDim2.new(0,12,0,124)WL.BackgroundTransparency=1 WL.Font=Enum.Font.GothamBold WL.Text="📡 WEBHOOK URL:"WL.TextColor3=Color3.fromRGB(100,200,255)WL.TextSize=10 WL.TextXAlignment=Enum.TextXAlignment.Left WL.Parent=F
 local IC=Instance.new("Frame")IC.Size=UDim2.new(1,-24,0,28)IC.Position=UDim2.new(0,12,0,140)IC.BackgroundColor3=Color3.fromRGB(10,10,10)IC.BorderSizePixel=0 IC.ClipsDescendants=true IC.Parent=F _0x22(IC,6)
 local WI=Instance.new("TextBox")WI.Size=UDim2.new(1,-12,1,-6)WI.Position=UDim2.new(0,6,0,3)WI.BackgroundTransparency=1 WI.BorderSizePixel=0 WI.Font=Enum.Font.Code WI.Text=_0x11 or""WI.TextColor3=Color3.fromRGB(255,255,255)WI.TextSize=10 WI.TextXAlignment=Enum.TextXAlignment.Left WI.TextTruncate=Enum.TextTruncate.AtEnd WI.ClearTextOnFocus=false WI.Parent=IC
+
+-- BUTTON SAVE
 local SaveBtn=Instance.new("TextButton")SaveBtn.Size=UDim2.new(0.5,-18,0,26)SaveBtn.Position=UDim2.new(0,12,0,172)SaveBtn.BackgroundColor3=Color3.fromRGB(0,180,100)SaveBtn.BorderSizePixel=0 SaveBtn.Font=Enum.Font.GothamBold SaveBtn.Text="💾 SAVE"SaveBtn.TextColor3=Color3.fromRGB(255,255,255)SaveBtn.TextSize=10 SaveBtn.Parent=F _0x22(SaveBtn,6)
 SaveBtn.MouseButton1Click:Connect(function()
-    _0x1d(WI.Text)
-    _0x24(CS)
-    if _0x11~=""then WS.Text="📡 Saved ✓"WS.TextColor3=Color3.fromRGB(0,255,100)else WS.Text="📡 Empty!"WS.TextColor3=Color3.fromRGB(255,100,100)end
+    local url=WI.Text
+    if url~=""and url:find("discord.com/api/webhooks")then
+        _0x1d(url)
+        CS.Text="💾 Config: Saved ✓"
+        CS.TextColor3=Color3.fromRGB(0,255,100)
+        WS.Text="📡 Ready"
+        WS.TextColor3=Color3.fromRGB(0,255,100)
+        SaveBtn.BackgroundColor3=Color3.fromRGB(0,255,100)
+        task.wait(0.5)
+        SaveBtn.BackgroundColor3=Color3.fromRGB(0,180,100)
+    else
+        WS.Text="📡 Invalid URL!"
+        WS.TextColor3=Color3.fromRGB(255,50,50)
+    end
 end)
+
+-- BUTTON TEST
 local TestBtn=Instance.new("TextButton")TestBtn.Size=UDim2.new(0.5,-18,0,26)TestBtn.Position=UDim2.new(0.5,6,0,172)TestBtn.BackgroundColor3=Color3.fromRGB(255,160,0)TestBtn.BorderSizePixel=0 TestBtn.Font=Enum.Font.GothamBold TestBtn.Text="🧪 TEST"TestBtn.TextColor3=Color3.fromRGB(255,255,255)TestBtn.TextSize=10 TestBtn.Parent=F _0x22(TestBtn,6)
 TestBtn.MouseButton1Click:Connect(function()
-    if WI.Text~=""then _0x1d(WI.Text)_0x24(CS)end
+    if WI.Text~=""then _0x1d(WI.Text)end
     if _0x11~=""then
-        local ok=_0x20("🧪 Test","✅ Webhook active!\n**Account:** ".._0x17,3447003)
-        if ok then WS.Text="📡 Test Sent ✓"WS.TextColor3=Color3.fromRGB(0,255,100)else WS.Text="📡 Failed!"WS.TextColor3=Color3.fromRGB(255,50,50)end
-    else WS.Text="📡 No URL!"WS.TextColor3=Color3.fromRGB(255,50,50)end
+        local ok=_0x20("🧪 Test","✅ Webhook active!\n**".._0x17.."**",3447003)
+        if ok then
+            WS.Text="📡 Test Sent ✓"
+            WS.TextColor3=Color3.fromRGB(0,255,100)
+            TestBtn.BackgroundColor3=Color3.fromRGB(0,255,150)
+            task.wait(0.5)
+            TestBtn.BackgroundColor3=Color3.fromRGB(255,160,0)
+        else
+            WS.Text="📡 Failed!"
+            WS.TextColor3=Color3.fromRGB(255,50,50)
+        end
+    else
+        WS.Text="📡 No URL!"
+        WS.TextColor3=Color3.fromRGB(255,50,50)
+    end
 end)
+
 local function _0x24(L)if _0x11~=""then L.Text="💾 Config: Saved ✓"L.TextColor3=Color3.fromRGB(0,255,100)else L.Text="💾 Config: No URL"L.TextColor3=Color3.fromRGB(255,180,50)end end
 local CS=Instance.new("TextLabel")CS.Size=UDim2.new(1,-24,0,12)CS.Position=UDim2.new(0,12,0,202)CS.BackgroundTransparency=1 CS.Font=Enum.Font.GothamMedium CS.TextSize=9 CS.TextXAlignment=Enum.TextXAlignment.Left CS.Parent=F _0x24(CS)
 local WS=Instance.new("TextLabel")WS.Size=UDim2.new(1,-24,0,12)WS.Position=UDim2.new(0,12,0,214)WS.BackgroundTransparency=1 WS.Font=Enum.Font.GothamMedium WS.Text="📡 Ready"WS.TextColor3=Color3.fromRGB(200,200,200)WS.TextSize=9 WS.TextXAlignment=Enum.TextXAlignment.Left WS.Parent=F
